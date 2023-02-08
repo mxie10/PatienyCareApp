@@ -18,13 +18,12 @@ class MyApp extends StatelessWidget {
             child:AppBar(  
               backgroundColor: Colors.black,
               bottom: TabBar(  
+                labelColor: Colors.white,
                 tabs: [  
                   SizedBox(
-                    height:70,
                     child: Tab(icon: Icon(Icons.home), text: "Home")
                   ),
                     SizedBox(
-                    height:70,
                     child: Tab(icon: Icon(Icons.people), text: "Patients") 
                   )
                 ],  
