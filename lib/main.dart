@@ -1,45 +1,45 @@
-import 'package:flutter/material.dart';  
-import './HomeScreen.dart';  
+import 'package:flutter/material.dart';
+import './HomeScreen.dart';
 import './PatientScreen.dart';
-  
-void main() => runApp(MyApp());  
-  
-class MyApp extends StatelessWidget {  
-  @override  
-  Widget build(BuildContext context) {  
-    return MaterialApp(  
+import './AccountScreen.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       color: Colors.white,
-      home: DefaultTabController(  
-        length: 2,  
-        child: Scaffold(  
+      home: DefaultTabController(
+        length: 3,
+        child: Scaffold(
           backgroundColor: Colors.black,
-          appBar:  PreferredSize(
+          appBar: PreferredSize(
             preferredSize: Size.fromHeight(80.0),
-            child:AppBar(  
+            child: AppBar(
               backgroundColor: Colors.black,
-              bottom: TabBar(  
+              bottom: const TabBar(
                 labelColor: Colors.white,
-                tabs: [  
+                tabs: [
+                  SizedBox(child: Tab(icon: Icon(Icons.home), text: "Home")),
                   SizedBox(
-                    child: Tab(icon: Icon(Icons.home), text: "Home")
-                  ),
-                    SizedBox(
-                    child: Tab(icon: Icon(Icons.people), text: "Patients") 
-                  )
-                ],  
-              ),  
-            ),  
+                      child: Tab(icon: Icon(Icons.people), text: "Patients")),
+                  SizedBox(
+                      child: Tab(
+                          icon: Icon(Icons.manage_accounts), text: "Account"))
+                ],
+              ),
+            ),
           ),
-          body: TabBarView(  
-            children: [  
-              HomeScreen(),  
-              PatientScreen(),  
-            ],  
-          ),  
-        ),  
-      ),  
-    );  
-  }  
-}  
-
-
+          body: TabBarView(
+            children: [
+              HomeScreen(),
+              PatientScreen(),
+              AccountScreen(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
