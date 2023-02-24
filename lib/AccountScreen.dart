@@ -10,11 +10,11 @@ class AccountScreen extends StatefulWidget {
 
 class AccountScreenState extends State<AccountScreen> {
   static List<PatientModel> patient_list = [
-    PatientModel("Jim Ryan", 55, "Fever"),
-    PatientModel("Tom Holland", 26, "Cough"),
-    PatientModel("YiQing", 22, "Covid"),
-    PatientModel("Jim Ryan", 55, "Fever"),
-    PatientModel("Tom Holland", 26, "Cough"),
+    PatientModel("Jim Ryan", 55, "Fever","120","12","95","110"),
+    PatientModel("Tom Holland", 26, "Cough","120","12","95","110"),
+    PatientModel("YiQing", 22, "Covid","120","12","95","110"),
+    PatientModel("Jim Ryan", 55, "Fever","120","12","95","110"),
+    PatientModel("Tom Holland", 26, "Cough","120","12","95","110"),
   ];
 
   List<PatientModel> display_list = List.from(patient_list);
@@ -85,13 +85,13 @@ class AccountScreenState extends State<AccountScreen> {
                       padding: MaterialStateProperty.all(
                           EdgeInsets.only(left: 120, right: 120))),
                   child: Text('Update')),
-              const Divider(
-                height: 1,
-                thickness: 1,
-                indent: 1,
-                endIndent: 0,
-                color: Colors.black,
-              ),
+              // const Divider(
+              //   height: 1,
+              //   thickness: 1,
+              //   indent: 1,
+              //   endIndent: 0,
+              //   color: Colors.black,
+              // ),
               ElevatedButton(
                   onPressed: () {},
                   style: ButtonStyle(

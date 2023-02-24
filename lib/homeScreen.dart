@@ -10,11 +10,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   static List<PatientModel> patient_list = [
-    PatientModel("Jim Ryan", 55, "Fever"),
-    PatientModel("Tom Holland", 26, "Cough"),
-    PatientModel("YiQing", 22, "Covid"),
-    PatientModel("Jim Ryan", 55, "Fever"),
-    PatientModel("Tom Holland", 26, "Cough"),
+    PatientModel("Jim Ryan", 55, "Fever","120","12","95","110"),
+    PatientModel("Tom Holland", 26, "Cough","120","12","95","110"),
+    PatientModel("YiQing", 22, "Covid","120","12","95","110"),
+    PatientModel("Jim Ryan", 55, "Fever","120","12","95","110"),
+    PatientModel("Tom Holland", 26, "Cough","120","12","95","110"),
   ];
 
   List<PatientModel> display_list = List.from(patient_list);
