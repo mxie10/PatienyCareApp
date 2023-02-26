@@ -112,7 +112,8 @@ class _PatientScreenState extends State<PatientScreen> {
                 ),
               )
             ],
-          )),
+          )
+        ),
     );
   }
 }

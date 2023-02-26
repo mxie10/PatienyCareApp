@@ -42,6 +42,9 @@ class PatientDetailsScreen extends StatelessWidget {
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
                     labelText: 'PatientName:',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
+                    ),
                 )),
                TextFormField(
                   initialValue: patientModel.patient_age.toString(),
@@ -49,6 +52,9 @@ class PatientDetailsScreen extends StatelessWidget {
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
                     labelText: 'PatientAge:',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
+                    ),
                 )),
                TextFormField(
                   initialValue: patientModel.bloodOxygenLevel,
@@ -56,6 +62,9 @@ class PatientDetailsScreen extends StatelessWidget {
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
                     labelText: 'bloodOxygenLevel:',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
+                    ),
                 )),
                TextFormField(
                   initialValue: patientModel.bloodPressure,
@@ -63,6 +72,9 @@ class PatientDetailsScreen extends StatelessWidget {
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
                     labelText: 'bloodPressure:',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
+                    ),
                 )),
                 TextFormField(
                   initialValue: patientModel.respiratoryRate,
@@ -70,6 +82,9 @@ class PatientDetailsScreen extends StatelessWidget {
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
                     labelText: 'respiratoryRate:',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
+                    ),
                 )),
                 TextFormField(
                   initialValue: patientModel.heartbeatRate,
@@ -77,6 +92,9 @@ class PatientDetailsScreen extends StatelessWidget {
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
                     labelText: 'heartbeatRate:',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
+                    ),
                 )),
                 TextFormField(
                   initialValue: patientModel.patient_syptom,
@@ -84,6 +102,9 @@ class PatientDetailsScreen extends StatelessWidget {
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
                     labelText: 'Syptom:',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
+                    ),
                 )),
                 ElevatedButton(
                   onPressed: () {},
