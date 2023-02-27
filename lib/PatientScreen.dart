@@ -13,12 +13,10 @@ class PatientScreen extends StatefulWidget {
 
 class _PatientScreenState extends State<PatientScreen> {
 
-  static List<PatientModel> patient_list = [
-    PatientModel("Jim Ryan", 55, "Fever","120","12","95","110"),
-    PatientModel("Tom Holland", 26, "Cough","120","12","95","110"),
-    PatientModel("YiQing", 22, "Covid","120","12","95","110"),
-    PatientModel("Jim Ryan", 55, "Fever","120","12","95","110"),
-    PatientModel("Tom Holland", 26, "Cough","120","12","95","110"),
+static List<PatientModel> patient_list = [
+    PatientModel("Jim012", "Jim", "Ryan","Male","16514 blenham way","07-09-1972","6541625413","jim@gmail.com","Fever"),
+    PatientModel("Jim012", "Jim", "Ryan","Male","16514 blenham way","07-09-1972","6541625413","jim@gmail.com","Fever"),
+    PatientModel("Jim012", "Jim", "Ryan","Male","16514 blenham way","07-09-1972","6541625413","jim@gmail.com","Fever"),
   ];
 
   List<PatientModel> display_list = List.from(patient_list);
@@ -69,20 +67,20 @@ class _PatientScreenState extends State<PatientScreen> {
                   itemBuilder: (context, index) => ListTile(
                     contentPadding: EdgeInsets.all(8.0),
                     title: Text(
-                      display_list[index].patient_name!,
+                      display_list[index].firstName! + display_list[index].lastName!,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                       ),
                     ),
                     subtitle: Text(
-                      "Age:" + display_list[index].patient_age!.toString(),
+                      "DoB:" + display_list[index].dateOfBirth!,
                       style: TextStyle(
                         color: Colors.black,
                       ),
                     ),
                     trailing: Text(
-                      display_list[index].patient_syptom!,
+                      display_list[index].symptom!,
                       style: TextStyle(
                         color: Colors.red,
                         fontSize: 16,

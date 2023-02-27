@@ -1,18 +1,43 @@
 class PatientModel {
-  String? patient_name;
-  int? patient_age;
-  String? patient_syptom;
-  String? bloodPressure;
-  String? respiratoryRate;
-  String? bloodOxygenLevel;
-  String? heartbeatRate;
+  String? userName;
+  String? firstName;
+  String? lastName;
+  String? sex;
+  String? address;
+  String? dateOfBirth;
+  String? phoneNumber;
+  String? emailAddress;
+  String? symptom;
 
   PatientModel(
-    this.patient_name,
-    this.patient_age,
-    this.patient_syptom,
-    this.bloodPressure,
-    this.respiratoryRate,
-    this.bloodOxygenLevel,
-    this.heartbeatRate);
+      this.userName,
+      this.firstName,
+      this.lastName,
+      this.sex,
+      this.address,
+      this.dateOfBirth,
+      this.phoneNumber,
+      this.emailAddress,
+      this.symptom
+    );
+}
+
+class PatientClinicalModel {
+    String? userName;
+    String? bloodPressure;
+    String? respiratoryRate;
+    String? bloodOxygenLevel;
+    String? heartbeatRate;
+    String? description;
+    String? date;
+
+    PatientClinicalModel(
+      this.userName,
+      this.bloodPressure,
+      this.respiratoryRate,
+      this.bloodOxygenLevel,
+      this.heartbeatRate,
+      this.description,
+      this.date
+    );
 }

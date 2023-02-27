@@ -13,107 +13,113 @@ class PatientDetailsScreen extends StatelessWidget {
         ),
         body: Container(
             padding: const EdgeInsets.all(15),
+            child:SingleChildScrollView(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-              const SizedBox(
-                height: 5.0,
-              ),
-              Container(
-                alignment: Alignment.center,
-                margin: const EdgeInsets.only(top: 25),
-                child: Container(
-                  width: 140.0,
-                  height: 140.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage('assets/avatars/user3.png')
-                            as ImageProvider),
-                    borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                    color: Colors.redAccent,
+                  const SizedBox(
+                    height: 5.0,
                   ),
-                ),
-              ),
-              TextFormField(
-                  initialValue: patientModel.patient_name,
-                  enabled: true,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'PatientName:',
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
+                  Container(
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.only(top: 25),
+                    child: Container(
+                      width: 120.0,
+                      height: 120.0,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage('assets/avatars/user3.png')
+                                as ImageProvider),
+                        borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                        color: Colors.redAccent,
+                      ),
                     ),
-                )),
-               TextFormField(
-                  initialValue: patientModel.patient_age.toString(),
-                  enabled: true,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'PatientAge:',
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
-                    ),
-                )),
-               TextFormField(
-                  initialValue: patientModel.bloodOxygenLevel,
-                  enabled: true,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'bloodOxygenLevel:',
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
-                    ),
-                )),
-               TextFormField(
-                  initialValue: patientModel.bloodPressure,
-                  enabled: true,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'bloodPressure:',
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
-                    ),
-                )),
-                TextFormField(
-                  initialValue: patientModel.respiratoryRate,
-                  enabled: true,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'respiratoryRate:',
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
-                    ),
-                )),
-                TextFormField(
-                  initialValue: patientModel.heartbeatRate,
-                  enabled: true,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'heartbeatRate:',
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
-                    ),
-                )),
-                TextFormField(
-                  initialValue: patientModel.patient_syptom,
-                  enabled: true,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Syptom:',
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
-                    ),
-                )),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.blue),
-                      padding: MaterialStateProperty.all(
-                          EdgeInsets.only(left: 120, right: 120))),
-                  child: Text('Update')),
-            ]))
-        );
+                  ),
+                  TextFormField(
+                      initialValue: patientModel.firstName! + patientModel.lastName!,
+                      enabled: true,
+                      decoration: const InputDecoration(
+                        border: UnderlineInputBorder(),
+                        labelText: 'PatientName:',
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
+                        ),
+                    )),
+                  TextFormField(
+                      initialValue: patientModel.dateOfBirth!,
+                      enabled: true,
+                      decoration: const InputDecoration(
+                        border: UnderlineInputBorder(),
+                        labelText: 'DoB:',
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
+                        ),
+                    )),
+                  TextFormField(
+                      initialValue: patientModel.sex,
+                      enabled: true,
+                      decoration: const InputDecoration(
+                        border: UnderlineInputBorder(),
+                        labelText: 'Sex:',
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
+                        ),
+                    )),
+                  TextFormField(
+                      initialValue: patientModel.address,
+                      enabled: true,
+                      decoration: const InputDecoration(
+                        border: UnderlineInputBorder(),
+                        labelText: 'Address:',
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
+                        ),
+                    )),
+                    TextFormField(
+                      initialValue: patientModel.phoneNumber,
+                      enabled: true,
+                      decoration: const InputDecoration(
+                        border: UnderlineInputBorder(),
+                        labelText: 'PhoneNumber:',
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
+                        ),
+                    )),
+                    TextFormField(
+                      initialValue: patientModel.emailAddress,
+                      enabled: true,
+                      decoration: const InputDecoration(
+                        border: UnderlineInputBorder(),
+                        labelText: 'EmailAddress:',
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
+                        ),
+                    )),
+                    TextFormField(
+                      initialValue: patientModel.symptom,
+                      enabled: true,
+                      decoration: const InputDecoration(
+                        border: UnderlineInputBorder(),
+                        labelText: 'Syptom:',
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
+                        ),
+                    )),
+                   
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.blue),
+                          padding: MaterialStateProperty.all(
+                              EdgeInsets.only(left: 120, right: 120))),
+                      child: Text('Update')),
+                ]
+              )
+            ),
+          
+        )
+      );
   }
 }
