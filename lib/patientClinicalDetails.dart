@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import './patient_model.dart';
 
-class PatientDetailsScreen extends StatelessWidget {
-  final PatientModel patientModel;
-  PatientDetailsScreen(this.patientModel);
+class PatientClinicalDetailsScreen extends StatelessWidget {
+  final PatientClinicalModel patientClinicalModel;
+  PatientClinicalDetailsScreen(this.patientClinicalModel);
 
   @override
   Widget build(BuildContext context) {
@@ -38,76 +38,55 @@ class PatientDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   TextFormField(
-                      initialValue: patientModel.firstName! + ' ' +  patientModel.lastName!,
+                      initialValue: patientClinicalModel.bloodPressure,
                       enabled: true,
                       decoration: const InputDecoration(
                         border: UnderlineInputBorder(),
-                        labelText: 'PatientName:',
+                        labelText: 'BloodPressure:',
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
                         ),
                     )),
                   TextFormField(
-                      initialValue: patientModel.dateOfBirth!,
+                      initialValue: patientClinicalModel.respiratoryRate!,
                       enabled: true,
                       decoration: const InputDecoration(
                         border: UnderlineInputBorder(),
-                        labelText: 'DoB:',
+                        labelText: 'RespiratoryRate:',
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
                         ),
                     )),
                   TextFormField(
-                      initialValue: patientModel.sex,
+                      initialValue: patientClinicalModel.bloodOxygenLevel,
                       enabled: true,
                       decoration: const InputDecoration(
                         border: UnderlineInputBorder(),
-                        labelText: 'Sex:',
+                        labelText: 'BloodOxygenLevel:',
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
                         ),
                     )),
                   TextFormField(
-                      initialValue: patientModel.address,
+                      initialValue: patientClinicalModel.heartbeatRate,
                       enabled: true,
                       decoration: const InputDecoration(
                         border: UnderlineInputBorder(),
-                        labelText: 'Address:',
+                        labelText: 'HeartbeatRate:',
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
                         ),
                     )),
                     TextFormField(
-                      initialValue: patientModel.phoneNumber,
+                      initialValue: patientClinicalModel.description,
                       enabled: true,
                       decoration: const InputDecoration(
                         border: UnderlineInputBorder(),
-                        labelText: 'PhoneNumber:',
+                        labelText: 'Description:',
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
                         ),
                     )),
-                    TextFormField(
-                      initialValue: patientModel.emailAddress,
-                      enabled: true,
-                      decoration: const InputDecoration(
-                        border: UnderlineInputBorder(),
-                        labelText: 'EmailAddress:',
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
-                        ),
-                    )),
-                    TextFormField(
-                      initialValue: patientModel.symptom,
-                      enabled: true,
-                      decoration: const InputDecoration(
-                        border: UnderlineInputBorder(),
-                        labelText: 'Syptom:',
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
-                        ),
-                    )),
-                   
                     ElevatedButton(
                       onPressed: () {},
                       style: ButtonStyle(

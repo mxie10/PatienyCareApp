@@ -1,5 +1,6 @@
+import 'dart:convert';
 import 'dart:ui';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:patient_care_app/patientDetails.dart';
 import './patient_model.dart';
@@ -13,14 +14,19 @@ class PatientScreen extends StatefulWidget {
 
 class _PatientScreenState extends State<PatientScreen> {
 
-static List<PatientModel> patient_list = [
-    PatientModel("Jim012", "Jim", "Ryan","Male","16514 blenham way","07-09-1972","6541625413","jim@gmail.com","Fever"),
-    PatientModel("Jim012", "Jim", "Ryan","Male","16514 blenham way","07-09-1972","6541625413","jim@gmail.com","Fever"),
-    PatientModel("Jim012", "Jim", "Ryan","Male","16514 blenham way","07-09-1972","6541625413","jim@gmail.com","Fever"),
-  ];
+Future getPatientData() async {
+  var response = await http.get(Uri.parse('http://localhost:5000'));
+  var jsonData = jsonDecode(response.body);
+  List<PatientModel> patients = [];
 
-  List<PatientModel> display_list = List.from(patient_list);
+  for(var p in jsonData){
+    PatientModel patient = PatientModel(p["userName"],p["firstName"],p["lastName"],p["sex"],p["address"],p["dateOfBirth"],p["phoneNumber"],p["emailAddress"],p["symptom"]);
+    patients.add(patient);
+  }
 
+  // print("patients length is:" + patients.length.toString());
+  return patients;
+}
   void updateList(String value) {}
 
   @override
@@ -30,7 +36,7 @@ static List<PatientModel> patient_list = [
       body: Container(
           padding: EdgeInsets.all(16),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
@@ -62,53 +68,66 @@ static List<PatientModel> patient_list = [
                 height: 20.0,
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: display_list.length,
-                  itemBuilder: (context, index) => ListTile(
-                    contentPadding: EdgeInsets.all(8.0),
-                    title: Text(
-                      display_list[index].firstName! + display_list[index].lastName!,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                    subtitle: Text(
-                      "DoB:" + display_list[index].dateOfBirth!,
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
-                    trailing: Text(
-                      display_list[index].symptom!,
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    leading: Container(
-                      width: 60.0,
-                      height: 60.0,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage('assets/avatars/user3.png') as ImageProvider
+                child: Card(
+                  child:FutureBuilder(
+                    future:getPatientData(),
+                    builder: (context,snapshot){
+                      if(snapshot.data == null) {
+                        return Container(
+                          child:Center(
+                            child:Text("Loading....")
+                          )
+                        );
+                      }else return ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) => ListTile(
+                          contentPadding: EdgeInsets.all(8.0),
+                          title: Text(
+                            snapshot.data[index].firstName! + ' ' +  snapshot.data[index].lastName!,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                          subtitle: Text(
+                            snapshot.data[index].dateOfBirth!,
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                          trailing: Text(
+                            snapshot.data[index].symptom!,
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          leading: Container(
+                            width: 60.0,
+                            height: 60.0,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage('assets/avatars/user3.png') as ImageProvider
+                              ),
+                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                              color: Colors.redAccent,
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        PatientDetailsScreen(snapshot.data[index])));
+                          },
                         ),
-                        borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                        color: Colors.redAccent,
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  PatientDetailsScreen(display_list[index])));
+                      );
                     },
-                  ),
-                ),
-              )
+                  )
+                )
+              ),
             ],
           )
         ),
