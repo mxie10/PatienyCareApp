@@ -24,7 +24,6 @@ Future getPatientData() async {
     patients.add(patient);
   }
 
-  // print("patients length is:" + patients.length.toString());
   return patients;
 }
   void updateList(String value) {}
