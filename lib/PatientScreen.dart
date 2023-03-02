@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:patient_care_app/patientDetails.dart';
 import './patient_model.dart';
+import './addPatientScreen.dart';
 
 class PatientScreen extends StatefulWidget {
   const PatientScreen({Key? key}) : super();
@@ -125,8 +126,28 @@ Future getPatientData() async {
                       );
                     },
                   )
-                )
+                ),
               ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddPatient()),
+                  );
+                },
+                child: Container(
+                  width: 50.0,
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25.0),
+                    color: Colors.blue,
+                  ),
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
+                ),
+              )
             ],
           )
         ),

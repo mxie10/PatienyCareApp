@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import './patientClinicalDetails.dart';
 import './patient_model.dart';
 
 class PatientDetailsScreen extends StatelessWidget {
   final PatientModel patientModel;
+  PatientClinicalModel data = PatientClinicalModel("userName","110","172","10","100","none","2-9-2023");
+
   PatientDetailsScreen(this.patientModel);
 
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,13 +111,28 @@ class PatientDetailsScreen extends StatelessWidget {
                           borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
                         ),
                     )),
-                   
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => PatientClinicalDetailsScreen(data)),
+                        );
+                      },
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.red),
+                          padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 100)),
+                        ),
+                        child: Text('ClinicalInfo'),
+                      ),
+                    ),
                     ElevatedButton(
                       onPressed: () {},
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(Colors.blue),
-                          padding: MaterialStateProperty.all(
-                              EdgeInsets.only(left: 120, right: 120))),
+                          padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 112)),
+                          ),
                       child: Text('Update')),
                 ]
               )

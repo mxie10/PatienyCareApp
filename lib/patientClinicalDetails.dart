@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './patient_model.dart';
 
 class PatientClinicalDetailsScreen extends StatelessWidget {
+  
   final PatientClinicalModel patientClinicalModel;
   PatientClinicalDetailsScreen(this.patientClinicalModel);
 
