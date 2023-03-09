@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 class AddPatient extends StatefulWidget {
@@ -16,6 +18,27 @@ class _AddPatientState extends State<AddPatient> {
   String _address = '';
   String _phoneNumber = '';
   String _email = '';
+  String _symptom = '';
+  submit() async {
+    await http.post(
+        Uri.parse('http://localhost:5000'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode({
+          'patientUserName': _patientUserName,
+          'firstName': _firstName,
+          'lastName': _lastName,
+          'sex': _sex,
+          'address': _address,
+          'dateOfBirth': _dob,
+          'phoneNumber': _phoneNumber,
+          'emailAddress': _email,    
+          'symptom': _symptom
+        }),
+      );
+      Navigator.pop(context, true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,6 +189,23 @@ class _AddPatientState extends State<AddPatient> {
                     });
                   },
                 ),
+                SizedBox(height: 16.0),
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Symptom',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter symptom';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      _symptom = value;
+                    });
+                  },
+                ),
                 SizedBox(height: 20.0),
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -173,7 +213,7 @@ class _AddPatientState extends State<AddPatient> {
                     padding: const EdgeInsets.only(bottom: 20.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        // Add your button on pressed action here
+                        submit();
                       },
                       child: Text('Submit'),
                       style: ElevatedButton.styleFrom(

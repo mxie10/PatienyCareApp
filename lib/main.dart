@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       color: Colors.white,
       home: DefaultTabController(
-        length: 2,
+        length: 1,
         child: Scaffold(
           backgroundColor: Colors.black,
           appBar: PreferredSize(
@@ -24,9 +24,9 @@ class MyApp extends StatelessWidget {
                   // SizedBox(child: Tab(icon: Icon(Icons.home), text: "Home")),
                   SizedBox(
                       child: Tab(icon: Icon(Icons.people), text: "Patients")),
-                  SizedBox(
-                      child: Tab(
-                          icon: Icon(Icons.manage_accounts), text: "Account"))
+                  // SizedBox(
+                  //     child: Tab(
+                  //         icon: Icon(Icons.manage_accounts), text: "Account"))
                 ],
               ),
             ),
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
             children: [
               // HomeScreen(),
               PatientScreen(),
-              AccountScreen(),
+              // AccountScreen(),
             ],
           ),
         ),
