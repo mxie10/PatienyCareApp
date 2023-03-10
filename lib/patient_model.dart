@@ -1,4 +1,5 @@
 class PatientModel {
+  String? patientId;
   String? userName;
   String? firstName;
   String? lastName;
@@ -10,6 +11,7 @@ class PatientModel {
   String? symptom;
 
   PatientModel(
+      this.patientId,
       this.userName,
       this.firstName,
       this.lastName,

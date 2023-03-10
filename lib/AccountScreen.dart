@@ -9,13 +9,7 @@ class AccountScreen extends StatefulWidget {
 }
 
 class AccountScreenState extends State<AccountScreen> {
-  static List<PatientModel> patient_list = [
-    PatientModel("Jim012", "Jim", "Ryan","Male","16514 blenham way","07-09-1972","6541625413","jim@gmail.com","Fever"),
-    PatientModel("Jim012", "Jim", "Ryan","Male","16514 blenham way","07-09-1972","6541625413","jim@gmail.com","Fever"),
-    PatientModel("Jim012", "Jim", "Ryan","Male","16514 blenham way","07-09-1972","6541625413","jim@gmail.com","Fever"),
-  ];
 
-  List<PatientModel> display_list = List.from(patient_list);
 
   void updateList(String value) {}
 

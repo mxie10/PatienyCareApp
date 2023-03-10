@@ -111,22 +111,19 @@ class PatientDetailsScreen extends StatelessWidget {
                           borderSide: BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
                         ),
                     )),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => PatientClinicalDetailsScreen(data)),
-                        );
-                      },
-                      child: ElevatedButton(
-                        onPressed: () {},
+                     ElevatedButton(
+                        onPressed: () { 
+                          Navigator.push(
+                               context,
+                                MaterialPageRoute(builder: (context) => PatientClinicalDetailsScreen(patientModel)),
+                          );
+                        },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(Colors.red),
                           padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 100)),
                         ),
                         child: Text('ClinicalInfo'),
                       ),
-                    ),
                     ElevatedButton(
                       onPressed: () {},
                       style: ButtonStyle(

@@ -23,6 +23,7 @@ class _PatientScreenState extends State<PatientScreen> with WidgetsBindingObserv
 
     for (var p in jsonData) {
       PatientModel patient = PatientModel(
+          p["_id"],
           p["userName"],
           p["firstName"],
           p["lastName"],
