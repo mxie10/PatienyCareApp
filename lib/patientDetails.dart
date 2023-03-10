@@ -115,7 +115,7 @@ class PatientDetailsScreen extends StatelessWidget {
                         onPressed: () { 
                           Navigator.push(
                                context,
-                                MaterialPageRoute(builder: (context) => PatientClinicalDetailsScreen(patientModel)),
+                                MaterialPageRoute(builder: (context) => PatientClinicalDetailsScreen(patientModel:patientModel)),
                           );
                         },
                         style: ButtonStyle(
