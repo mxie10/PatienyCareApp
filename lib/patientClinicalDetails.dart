@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import './patient_model.dart';
+import 'package:http/http.dart' as http;
 
 enum PatientStatus { stable, critical }
 
@@ -13,14 +15,84 @@ class PatientClinicalDetailsScreen extends StatefulWidget {
 
 class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
   late PatientModel _patientModel; // Declare _patientModel variable
+  TextEditingController bloodPressureController = TextEditingController();
+  TextEditingController repositoryRateController = TextEditingController();
+  TextEditingController bloodOxygenLevelController = TextEditingController();
+  TextEditingController heartBeatRateController = TextEditingController();
+  TextEditingController noteController = TextEditingController();
 
-  @override
+  String? bloodPressure = "";
+  String? repositoryRate = "";
+  String? bloodOxygenLevel = "";
+  String? heartBeatRate = "";
+  String? isCritical = "";
+  String? note = "";
+
+  PatientStatus _patientStatus = PatientStatus.stable;
+
+  Future fetchClinicalDetail() async {
+    var response = await http.get(Uri.parse(
+        'http://localhost:5000/clinicalInfo?id=${_patientModel.patientId}'));
+    var jsonData = jsonDecode(response.body);
+    List<PatientClinicalModel> clinicalRecord = [];
+
+    for (var r in jsonData) {
+      PatientClinicalModel record = PatientClinicalModel(
+          r["patientId"],
+          r["bloodPressure"],
+          r["repositoryRate"],
+          r["bloodOxygenLevel"],
+          r["heartBeatRate"],
+          r["comment"],
+          r["date"]);
+      // print(patient.patientId);
+      clinicalRecord.add(record);
+    }
+    print("The length is:" + clinicalRecord.length.toString());
+    return clinicalRecord;
+  }
+
+  // Future<http.Response> fetchClinicalRecord() {
+  //   return http.get(Uri.parse('http://localhost:5000?id=${_patientModel.patientId}'));
+  // }
+
   void initState() {
     super.initState();
     _patientModel = widget.patientModel; // Initialize _patientModel variable
   }
 
-  PatientStatus _patientStatus = PatientStatus.stable;
+  submit() async {
+    bloodPressure = bloodPressureController.text;
+    repositoryRate = repositoryRateController.text;
+    bloodOxygenLevel = bloodOxygenLevelController.text;
+    heartBeatRate = heartBeatRateController.text;
+    isCritical = _patientStatus == PatientStatus.critical ? "true" : "false";
+    note = noteController.text;
+
+    // print(_patientModel.patientId);
+
+    final url = Uri.parse('http://localhost:5000/clinicalInfo');
+    final response = await http.post(url, body: {
+      "patientId": _patientModel.patientId.toString(),
+      'bloodPressure': bloodPressure,
+      'repositoryRate': repositoryRate,
+      'bloodOxygenLevel': bloodOxygenLevel,
+      'heartBeatRate': heartBeatRate,
+      'isInCriticalCondition': isCritical,
+      "date": DateTime.now().month.toString() +
+          '-' +
+          DateTime.now().day.toString() +
+          "-" +
+          DateTime.now().year.toString(),
+      'comment': note,
+    });
+
+    if (response.statusCode == 200) {
+      // Success
+    } else {
+      // Failure
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +101,12 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
           title: Text("Patient Clinical Info"),
         ),
         body: Container(
-          padding: const EdgeInsets.all(15),
-          child: SingleChildScrollView(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
+            padding: const EdgeInsets.all(15),
+            child: SingleChildScrollView(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
                 const SizedBox(
                   height: 5.0,
                 ),
@@ -54,104 +126,131 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
                     ),
                   ),
                 ),
-                TextFormField(
-                    // initialValue: patientClinicalModel.bloodPressure,
-                    enabled: true,
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
-                      hintText: '120/80 mm Hg',
-                      labelText: 'BloodPressure:',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
-                      ),
-                    )),
-                TextFormField(
-                    // initialValue: patientClinicalModel.respiratoryRate!,
-                    enabled: true,
-                    decoration: const InputDecoration(
-                      hintText: '18/mins',
-                      border: UnderlineInputBorder(),
-                      labelText: 'RespiratoryRate:',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
-                      ),
-                    )),
-                TextFormField(
-                    // initialValue: patientClinicalModel.bloodOxygenLevel,
-                    enabled: true,
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
-                      labelText: 'BloodOxygenLevel:',
-                      hintText: '80 millimeters/mm Hg',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
-                      ),
-                    )),
-                TextFormField(
-                    // initialValue: patientClinicalModel.heartbeatRate,
-                    enabled: true,
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
-                      labelText: 'HeartbeatRate:',
-                      hintText: '80/mins',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
-                      ),
-                    )),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Transform.scale(
-                      scale: 1.0, // Increase the scale factor to make the text bigger
-                      child: Text(
-                        'Critical condition:',
-                        style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold), 
-                      ),
-                    ),
-                    Transform.scale(
-                      scale:1.4, // Increase the scale factor to make the switch bigger
-                      child: Switch(
-                        value: _patientStatus == PatientStatus.critical,
-                        onChanged: (value) {
-                          setState(() {
-                            _patientStatus = value
-                                ? PatientStatus.critical
-                                : PatientStatus.stable;
-                          });
-                        },
-                        activeColor: Colors.red, // Set the on color to red
-                        inactiveTrackColor: Colors.green
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                TextField(
-                  maxLines: 4,
-                  decoration: InputDecoration(
-                    hintText: 'Please add comment at here',
-                    border: OutlineInputBorder(),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Color.fromRGBO(160, 160, 160, 1)),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.green),
-                        padding: MaterialStateProperty.all(
-                            EdgeInsets.only(left: 90, right: 90))),
-                    child: Text('Update Clinical History')),
-              ])),
-        ));
+                FutureBuilder(
+                    future: fetchClinicalDetail(),
+                    builder: (context, snapshot) {
+                      final data = snapshot.data!;
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      }else{
+                        if(data.length!=0)
+                          bloodPressureController.text = data[data.length-1].bloodPressure;
+                      }
+                      return Column(children: [
+                        TextFormField(
+                            controller: bloodPressureController,
+                            enabled: true,
+                            decoration: const InputDecoration(
+                              border: UnderlineInputBorder(),
+                              hintText: '120/80 mm Hg',
+                              labelText: 'BloodPressure:',
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromRGBO(232, 228, 228, 1)),
+                              ),
+                            )),
+                        TextFormField(
+                            // initialValue: patientClinicalModel.respiratoryRate!,
+                            controller: repositoryRateController,
+                            enabled: true,
+                            decoration: const InputDecoration(
+                              hintText: '18/mins',
+                              border: UnderlineInputBorder(),
+                              labelText: 'RespiratoryRate:',
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromRGBO(232, 228, 228, 1)),
+                              ),
+                            )),
+                        TextFormField(
+                            // initialValue: patientClinicalModel.bloodOxygenLevel,
+                            controller: bloodOxygenLevelController,
+                            enabled: true,
+                            decoration: const InputDecoration(
+                              border: UnderlineInputBorder(),
+                              labelText: 'BloodOxygenLevel:',
+                              hintText: '80 millimeters/mm Hg',
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromRGBO(232, 228, 228, 1)),
+                              ),
+                            )),
+                        TextFormField(
+                            // initialValue: patientClinicalModel.heartbeatRate,
+                            controller: heartBeatRateController,
+                            enabled: true,
+                            decoration: const InputDecoration(
+                              border: UnderlineInputBorder(),
+                              labelText: 'HeartbeatRate:',
+                              hintText: '80/mins',
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromRGBO(232, 228, 228, 1)),
+                              ),
+                            )),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Transform.scale(
+                              scale:
+                                  1.0, // Increase the scale factor to make the text bigger
+                              child: Text(
+                                'Critical condition:',
+                                style: TextStyle(
+                                    color: Colors.orange,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Transform.scale(
+                              scale:
+                                  1.4, // Increase the scale factor to make the switch bigger
+                              child: Switch(
+                                  value:
+                                      _patientStatus == PatientStatus.critical,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _patientStatus = value
+                                          ? PatientStatus.critical
+                                          : PatientStatus.stable;
+                                    });
+                                  },
+                                  activeColor:
+                                      Colors.red, // Set the on color to red
+                                  inactiveTrackColor: Colors.green),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        TextField(
+                          controller: noteController,
+                          maxLines: 4,
+                          decoration: InputDecoration(
+                            hintText: 'Please add comment at here',
+                            border: OutlineInputBorder(),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color.fromRGBO(160, 160, 160, 1)),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        ElevatedButton(
+                            onPressed: () {
+                              submit();
+                            },
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.green),
+                                padding: MaterialStateProperty.all(
+                                    EdgeInsets.only(left: 90, right: 90))),
+                            child: Text('Update Clinical History')),
+                      ]);
+                    })
+              ],
+            ))));
   }
 }

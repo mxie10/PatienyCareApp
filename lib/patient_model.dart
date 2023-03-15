@@ -25,7 +25,7 @@ class PatientModel {
 }
 
 class PatientClinicalModel {
-    String? userName;
+    String? patientId;
     String? bloodPressure;
     String? respiratoryRate;
     String? bloodOxygenLevel;
@@ -34,7 +34,7 @@ class PatientClinicalModel {
     String? date;
 
     PatientClinicalModel(
-      this.userName,
+      this.patientId,
       this.bloodPressure,
       this.respiratoryRate,
       this.bloodOxygenLevel,

@@ -11,6 +11,7 @@ class PatientDetailsScreen extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    // print(patientModel.patientId);
     return Scaffold(
         appBar: AppBar(
           title: Text("Patient Details"),
