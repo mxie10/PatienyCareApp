@@ -279,8 +279,18 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
                                 backgroundColor:
                                     MaterialStateProperty.all(Colors.green),
                                 padding: MaterialStateProperty.all(
+                                    EdgeInsets.only(left: 75, right: 75))),
+                            child: Text('Update Clinical Information')),
+                        ElevatedButton(
+                            onPressed: () {
+                              // submit();
+                            },
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.brown),
+                                padding: MaterialStateProperty.all(
                                     EdgeInsets.only(left: 90, right: 90))),
-                            child: Text('Update Clinical History')),
+                            child: Text('Review Clinical History')),
                       ]);
                     })
               ],
