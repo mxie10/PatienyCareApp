@@ -25,8 +25,16 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
   String? repositoryRate = "";
   String? bloodOxygenLevel = "";
   String? heartBeatRate = "";
-  String? isCritical = "";
   String? note = "";
+  String _selectedValue = "";
+  String? criticalCondition = "";
+
+  List<String> _dropdownItems = [
+    '',
+    'Good',
+    'Serious',
+    'Critical',
+  ];
 
   PatientStatus _patientStatus = PatientStatus.stable;
 
@@ -35,7 +43,6 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
         'http://localhost:5000/clinicalInfo?id=${_patientModel.patientId}'));
     var jsonData = jsonDecode(response.body);
     List<PatientClinicalModel> clinicalRecord = [];
-
     for (var r in jsonData) {
       PatientClinicalModel record = PatientClinicalModel(
           r["patientId"],
@@ -43,18 +50,19 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
           r["repositoryRate"],
           r["bloodOxygenLevel"],
           r["heartBeatRate"],
+          r["isInCriticalCondition"],
           r["comment"],
           r["date"]);
       // print(patient.patientId);
       clinicalRecord.add(record);
     }
-    print("The length is:" + clinicalRecord.length.toString());
+    if (clinicalRecord.length != 0) {
+      criticalCondition = clinicalRecord[clinicalRecord.length-1].isInCriticalCondition;
+      print("excute??????");
+    }
+    // print("The length is:" + clinicalRecord.length.toString());
     return clinicalRecord;
   }
-
-  // Future<http.Response> fetchClinicalRecord() {
-  //   return http.get(Uri.parse('http://localhost:5000?id=${_patientModel.patientId}'));
-  // }
 
   void initState() {
     super.initState();
@@ -66,10 +74,7 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
     repositoryRate = repositoryRateController.text;
     bloodOxygenLevel = bloodOxygenLevelController.text;
     heartBeatRate = heartBeatRateController.text;
-    isCritical = _patientStatus == PatientStatus.critical ? "true" : "false";
     note = noteController.text;
-
-    // print(_patientModel.patientId);
 
     final url = Uri.parse('http://localhost:5000/clinicalInfo');
     final response = await http.post(url, body: {
@@ -78,7 +83,7 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
       'repositoryRate': repositoryRate,
       'bloodOxygenLevel': bloodOxygenLevel,
       'heartBeatRate': heartBeatRate,
-      'isInCriticalCondition': isCritical,
+      'isInCriticalCondition': _selectedValue,
       "date": DateTime.now().month.toString() +
           '-' +
           DateTime.now().day.toString() +
@@ -88,7 +93,7 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
     });
 
     if (response.statusCode == 200) {
-      // Success
+      setState(() {});
     } else {
       // Failure
     }
@@ -114,8 +119,8 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
                   alignment: Alignment.center,
                   margin: const EdgeInsets.only(top: 25),
                   child: Container(
-                    width: 120.0,
-                    height: 120.0,
+                    width: 90.0,
+                    height: 90.0,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                           fit: BoxFit.cover,
@@ -129,15 +134,25 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
                 FutureBuilder(
                     future: fetchClinicalDetail(),
                     builder: (context, snapshot) {
-                      final data = snapshot.data!;
+                      final data = snapshot.data;
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
                       }
                       if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
-                      }else{
-                        if(data.length!=0)
-                          bloodPressureController.text = data[data.length-1].bloodPressure;
+                      } else {
+                        if (data.length != 0) {
+                          bloodPressureController.text =
+                              data[data.length - 1].bloodPressure;
+                          repositoryRateController.text =
+                              data[data.length - 1].repositoryRate;
+                          bloodOxygenLevelController.text =
+                              data[data.length - 1].bloodOxygenLevel;
+                          heartBeatRateController.text =
+                              data[data.length - 1].heartBeatRate;
+                          noteController.text =
+                              data[data.length - 1].description;
+                        }
                       }
                       return Column(children: [
                         TextFormField(
@@ -205,26 +220,44 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
-                            Transform.scale(
-                              scale:
-                                  1.4, // Increase the scale factor to make the switch bigger
-                              child: Switch(
-                                  value:
-                                      _patientStatus == PatientStatus.critical,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _patientStatus = value
-                                          ? PatientStatus.critical
-                                          : PatientStatus.stable;
-                                    });
-                                  },
-                                  activeColor:
-                                      Colors.red, // Set the on color to red
-                                  inactiveTrackColor: Colors.green),
+                            Container(
+                              width: 20.0,
+                              height: 20.0,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: criticalCondition == '' ? Colors.blue : (criticalCondition == 'Good' ? Colors.green : (criticalCondition == 'Serious' ? Colors.orange : Colors.red))
+                              ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                                Transform.scale(
+                              scale:
+                                  1.0, // Increase the scale factor to make the text bigger
+                              child: Text(
+                                'Change critical condition:',
+                                style: TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            DropdownButton(
+                              value: _selectedValue,
+                              items: _dropdownItems.map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  _selectedValue = newValue!;
+                                });
+                              },
+                            ),
+                          ]),
                         TextField(
                           controller: noteController,
                           maxLines: 4,

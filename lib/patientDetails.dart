@@ -4,7 +4,7 @@ import './patient_model.dart';
 
 class PatientDetailsScreen extends StatelessWidget {
   final PatientModel patientModel;
-  PatientClinicalModel data = PatientClinicalModel("userName","110","172","10","100","none","2-9-2023");
+  // PatientClinicalModel data = PatientClinicalModel("userName","110","172","10","100","none","2-9-2023");
 
   PatientDetailsScreen(this.patientModel);
 

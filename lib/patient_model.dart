@@ -27,18 +27,20 @@ class PatientModel {
 class PatientClinicalModel {
     String? patientId;
     String? bloodPressure;
-    String? respiratoryRate;
+    String? repositoryRate;
     String? bloodOxygenLevel;
-    String? heartbeatRate;
+    String? heartBeatRate;
+    String? isInCriticalCondition;
     String? description;
     String? date;
 
     PatientClinicalModel(
       this.patientId,
       this.bloodPressure,
-      this.respiratoryRate,
+      this.repositoryRate,
       this.bloodOxygenLevel,
-      this.heartbeatRate,
+      this.heartBeatRate,
+      this.isInCriticalCondition,
       this.description,
       this.date
     );
