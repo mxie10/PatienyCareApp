@@ -89,9 +89,9 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
       'heartBeatRate': heartBeatRate,
       'isInCriticalCondition': _selectedValue,
       "date": DateTime.now().month.toString() +
-          '-' +
+          '/' +
           DateTime.now().day.toString() +
-          "-" +
+          "/" +
           DateTime.now().year.toString(),
       'comment': note,
     });
