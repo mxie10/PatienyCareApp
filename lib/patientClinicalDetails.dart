@@ -97,6 +97,23 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
     });
 
     if (response.statusCode == 200) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Success"),
+            content: Text("Your data has been submitted."),
+            actions: <Widget>[
+              TextButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
       setState(() {});
     } else {
       // Failure

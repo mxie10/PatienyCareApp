@@ -13,7 +13,8 @@ class PatientScreen extends StatefulWidget {
   _PatientScreenState createState() => _PatientScreenState();
 }
 
-class _PatientScreenState extends State<PatientScreen> with WidgetsBindingObserver{
+class _PatientScreenState extends State<PatientScreen>
+    with WidgetsBindingObserver {
   bool _refreshData = false;
 
   Future getPatientData() async {
@@ -40,7 +41,7 @@ class _PatientScreenState extends State<PatientScreen> with WidgetsBindingObserv
     return patients;
   }
 
- @override
+  @override
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addObserver(this);
@@ -72,7 +73,6 @@ class _PatientScreenState extends State<PatientScreen> with WidgetsBindingObserv
                 style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   filled: true,
-                  // fillColor: Color(0xff302360),
                   fillColor: Color.fromRGBO(241, 240, 240, 1),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
@@ -81,6 +81,12 @@ class _PatientScreenState extends State<PatientScreen> with WidgetsBindingObserv
                   hintText: "Jim Ryan",
                   prefixIcon: Icon(Icons.search),
                   prefixIconColor: Colors.grey,
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.send),
+                    onPressed: () {
+                      // handle button press
+                    },
+                  ),
                 ),
               ),
               SizedBox(
@@ -89,67 +95,67 @@ class _PatientScreenState extends State<PatientScreen> with WidgetsBindingObserv
               Expanded(
                 child: Card(
                     child: FutureBuilder(
-                      future: getPatientData(),
-                      builder: (context, snapshot) {
-                      if (snapshot.data == null) {
-                        return Container(
-                            child: Center(child: Text("Loading....")));
-                      } else
-                        return ListView.builder(
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (context, index) => ListTile(
-                            contentPadding: EdgeInsets.all(8.0),
-                            title: Text(
-                              snapshot.data[index].firstName! +
-                                  ' ' +
-                                  snapshot.data[index].lastName!,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
+                  future: getPatientData(),
+                  builder: (context, snapshot) {
+                    if (snapshot.data == null) {
+                      return Container(
+                          child: Center(child: Text("Loading....")));
+                    } else
+                      return ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) => ListTile(
+                          contentPadding: EdgeInsets.all(8.0),
+                          title: Text(
+                            snapshot.data[index].firstName! +
+                                ' ' +
+                                snapshot.data[index].lastName!,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
                             ),
-                            subtitle: Text(
-                              snapshot.data[index].dateOfBirth!,
-                              style: TextStyle(
-                                color: Colors.black,
-                              ),
-                            ),
-                            trailing: Text(
-                              snapshot.data[index].symptom!,
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            leading: Container(
-                              width: 60.0,
-                              height: 60.0,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage('assets/avatars/user3.png')
-                                        as ImageProvider),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(100.0)),
-                                color: Colors.redAccent,
-                              ),
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => PatientDetailsScreen(
-                                          snapshot.data[index])));
-                            },
                           ),
-                        );
-                    },
-                  )),
-                ),
+                          subtitle: Text(
+                            snapshot.data[index].dateOfBirth!,
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                          trailing: Text(
+                            snapshot.data[index].symptom!,
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          leading: Container(
+                            width: 60.0,
+                            height: 60.0,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage('assets/avatars/user3.png')
+                                      as ImageProvider),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(100.0)),
+                              color: Colors.redAccent,
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PatientDetailsScreen(
+                                        snapshot.data[index])));
+                          },
+                        ),
+                      );
+                  },
+                )),
+              ),
               InkWell(
                 onTap: () async {
-                   final result = await Navigator.push(
+                  final result = await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => AddPatient(),

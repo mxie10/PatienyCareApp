@@ -38,6 +38,7 @@ class _AddPatientState extends State<AddPatient> {
         }),
       );
       Navigator.pop(context, true);
+
   }
 
   @override

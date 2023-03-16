@@ -121,9 +121,9 @@ class PatientDetailsScreen extends StatelessWidget {
                         },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(Colors.red),
-                          padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 125)),
+                          padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 123)),
                         ),
-                        child: Text('ClinicalInfo'),
+                        child: Text('Clinical Info'),
                       ),
                     ElevatedButton(
                       onPressed: () {},
