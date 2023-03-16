@@ -25,7 +25,12 @@ class CustomListTile extends ListTile {
               Text( "BOL:" + clinicalRecord[index].bloodOxygenLevel.toString()
                 + " | " + "HBR:"+clinicalRecord[index].heartBeatRate.toString()),
               SizedBox(height: 2.0),
-              Text("Note:" + clinicalRecord[index].description.toString()),
+              Text(
+                "Note:" + clinicalRecord[index].description.toString(),
+                style: TextStyle(
+                    color: Colors.pink,
+                  )
+                ),
             ],
           ),
           leading: Container(
@@ -64,37 +69,6 @@ class HistoryReviewScreen extends StatelessWidget {
                 child: CustomListTile(
                   clinicalRecord,index
                 ),
-                // child: ListTile(
-                //   leading: Container(
-                //     width: 30.0,
-                //     height: 30.0,
-                //     decoration: BoxDecoration(
-                //         shape: BoxShape.circle,
-                //         color: clinicalRecord[index].isInCriticalCondition == ''
-                //             ? Colors.blue
-                //             : (clinicalRecord[index].isInCriticalCondition ==
-                //                     'Good'
-                //                 ? Colors.green
-                //                 : (clinicalRecord[index]
-                //                             .isInCriticalCondition ==
-                //                         'Serious'
-                //                     ? Colors.orange
-                //                     : Colors.red))),
-                //   ),
-                //   title: Text(
-                //     clinicalRecord[index].date.toString(),
-                //     style: TextStyle(
-                //       fontWeight: FontWeight.bold,
-                //       fontSize: 18,
-                //     ),
-                //   ),
-                //   subtitle: Text(
-                //     clinicalRecord[index].description.toString(),
-                //     style: TextStyle(
-                //       color: Colors.black,
-                //     ),
-                //   ),
-                // ),
               );
             }));
     throw UnimplementedError();
