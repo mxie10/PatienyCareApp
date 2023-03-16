@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_care_app/historyReview.dart';
 import 'dart:convert';
 import './patient_model.dart';
 import 'package:http/http.dart' as http;
@@ -28,7 +29,7 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
   String? note = "";
   String _selectedValue = "";
   String? criticalCondition = "";
-
+  List<PatientClinicalModel> clinicalRecord = [];
   List<String> _dropdownItems = [
     '',
     'Good',
@@ -39,10 +40,11 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
   PatientStatus _patientStatus = PatientStatus.stable;
 
   Future fetchClinicalDetail() async {
+    clinicalRecord.clear();
     var response = await http.get(Uri.parse(
         'http://localhost:5000/clinicalInfo?id=${_patientModel.patientId}'));
     var jsonData = jsonDecode(response.body);
-    List<PatientClinicalModel> clinicalRecord = [];
+
     for (var r in jsonData) {
       PatientClinicalModel record = PatientClinicalModel(
           r["patientId"],
@@ -56,9 +58,11 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
       // print(patient.patientId);
       clinicalRecord.add(record);
     }
+    // print("clinicalRecord.length is:" + clinicalRecord.length.toString());
     if (clinicalRecord.length != 0) {
-      criticalCondition = clinicalRecord[clinicalRecord.length-1].isInCriticalCondition;
-      print("excute??????");
+      criticalCondition =
+          clinicalRecord[clinicalRecord.length - 1].isInCriticalCondition;
+      // print("excute??????");
     }
     // print("The length is:" + clinicalRecord.length.toString());
     return clinicalRecord;
@@ -224,40 +228,45 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
                               width: 20.0,
                               height: 20.0,
                               decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: criticalCondition == '' ? Colors.blue : (criticalCondition == 'Good' ? Colors.green : (criticalCondition == 'Serious' ? Colors.orange : Colors.red))
-                              ),
+                                  shape: BoxShape.circle,
+                                  color: criticalCondition == ''
+                                      ? Colors.blue
+                                      : (criticalCondition == 'Good'
+                                          ? Colors.green
+                                          : (criticalCondition == 'Serious'
+                                              ? Colors.orange
+                                              : Colors.red))),
                             ),
                           ],
                         ),
-                          Row(
+                        Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                                Transform.scale(
-                              scale:
-                                  1.0, // Increase the scale factor to make the text bigger
-                              child: Text(
-                                'Change critical condition:',
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.bold),
+                              Transform.scale(
+                                scale:
+                                    1.0, // Increase the scale factor to make the text bigger
+                                child: Text(
+                                  'Change critical condition:',
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
-                            ),
-                            DropdownButton(
-                              value: _selectedValue,
-                              items: _dropdownItems.map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  _selectedValue = newValue!;
-                                });
-                              },
-                            ),
-                          ]),
+                              DropdownButton(
+                                value: _selectedValue,
+                                items: _dropdownItems.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    _selectedValue = newValue!;
+                                  });
+                                },
+                              ),
+                            ]),
                         TextField(
                           controller: noteController,
                           maxLines: 4,
@@ -283,7 +292,10 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
                             child: Text('Update Clinical Information')),
                         ElevatedButton(
                             onPressed: () {
-                              // submit();
+                               Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => HistoryReviewScreen(clinicalRecord)),
+                              );
                             },
                             style: ButtonStyle(
                                 backgroundColor:
