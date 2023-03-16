@@ -4,29 +4,53 @@ import 'package:flutter/material.dart';
 import 'package:patient_care_app/patient_model.dart';
 
 class CustomListTile extends ListTile {
-  final List<String> textLines;
-  
-  CustomListTile(this.textLines) :
-    super(
-      title: Text(textLines[0]),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(textLines[1]),
-          Text(textLines[2]),
-          Text(textLines[3]),
-          Text(textLines[4]),
-          Text(textLines[5]),
-        ],
-      ),
-      trailing: Icon(Icons.arrow_forward),
-      onTap: () {},
-    );
+  List<PatientClinicalModel> clinicalRecord;
+  int index;
+
+  CustomListTile(this.clinicalRecord, this.index)
+      : super(
+          title: Text(clinicalRecord[index].date.toString(),
+                  style: TextStyle(
+                    color: Colors.teal,
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.bold,
+                  )),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 2.0),
+              Text( "BP:" + clinicalRecord[index].bloodPressure.toString() 
+                + " | " + "RR:"+clinicalRecord[index].repositoryRate.toString()),
+              SizedBox(height: 2.0),
+              Text( "BOL:" + clinicalRecord[index].bloodOxygenLevel.toString()
+                + " | " + "HBR:"+clinicalRecord[index].heartBeatRate.toString()),
+              SizedBox(height: 2.0),
+              Text("Note:" + clinicalRecord[index].description.toString()),
+            ],
+          ),
+          leading: Container(
+            width: 30.0,
+            height: 30.0,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: clinicalRecord[index].isInCriticalCondition == ''
+                    ? Colors.blue
+                    : (clinicalRecord[index].isInCriticalCondition == 'Good'
+                        ? Colors.green
+                        : (clinicalRecord[index].isInCriticalCondition ==
+                                'Serious'
+                            ? Colors.orange
+                            : Colors.red))),
+          ),
+          onTap: () {},
+        );
 }
 
 class HistoryReviewScreen extends StatelessWidget {
   List<PatientClinicalModel> clinicalRecord;
   HistoryReviewScreen(this.clinicalRecord);
+
+  List<String> textLines = ["bloodPressure:","test","test","test"];
 
   @override
   Widget build(BuildContext context) {
@@ -37,37 +61,40 @@ class HistoryReviewScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               final clinical = clinicalRecord[index];
               return Card(
-                child: ListTile(
-                  leading: Container(
-                    width: 30.0,
-                    height: 30.0,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: clinicalRecord[index].isInCriticalCondition == ''
-                            ? Colors.blue
-                            : (clinicalRecord[index].isInCriticalCondition ==
-                                    'Good'
-                                ? Colors.green
-                                : (clinicalRecord[index]
-                                            .isInCriticalCondition ==
-                                        'Serious'
-                                    ? Colors.orange
-                                    : Colors.red))),
-                  ),
-                  title: Text(
-                    clinicalRecord[index].date.toString(),
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                  ),
-                  subtitle: Text(
-                    clinicalRecord[index].description.toString(),
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
-                  ),
+                child: CustomListTile(
+                  clinicalRecord,index
                 ),
+                // child: ListTile(
+                //   leading: Container(
+                //     width: 30.0,
+                //     height: 30.0,
+                //     decoration: BoxDecoration(
+                //         shape: BoxShape.circle,
+                //         color: clinicalRecord[index].isInCriticalCondition == ''
+                //             ? Colors.blue
+                //             : (clinicalRecord[index].isInCriticalCondition ==
+                //                     'Good'
+                //                 ? Colors.green
+                //                 : (clinicalRecord[index]
+                //                             .isInCriticalCondition ==
+                //                         'Serious'
+                //                     ? Colors.orange
+                //                     : Colors.red))),
+                //   ),
+                //   title: Text(
+                //     clinicalRecord[index].date.toString(),
+                //     style: TextStyle(
+                //       fontWeight: FontWeight.bold,
+                //       fontSize: 18,
+                //     ),
+                //   ),
+                //   subtitle: Text(
+                //     clinicalRecord[index].description.toString(),
+                //     style: TextStyle(
+                //       color: Colors.black,
+                //     ),
+                //   ),
+                // ),
               );
             }));
     throw UnimplementedError();
