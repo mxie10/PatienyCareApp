@@ -124,7 +124,7 @@ class _AddPatientState extends State<AddPatient> {
                             });
                           }
                         },
-                        child: Text('Select Date'),
+                        child: Text('Date of Birth'),
                       ),
                       Text('Selected date: ${_selectedDate.toString().substring(0,10)}'),
                       SizedBox(height: 16.0),

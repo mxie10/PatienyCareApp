@@ -16,9 +16,14 @@ class PatientScreen extends StatefulWidget {
 class _PatientScreenState extends State<PatientScreen>
     with WidgetsBindingObserver {
   bool _refreshData = false;
-
+  String _searchContent = '';
   Future getPatientData() async {
-    var response = await http.get(Uri.parse('http://localhost:5000'));
+    var response = null;
+    if(_searchContent == '')
+      response = await http.get(Uri.parse('http://localhost:5000'));
+    else
+      response = await http.get(Uri.parse('http://localhost:5000/getPatientByName?firstName=${_searchContent}'));
+
     var jsonData = jsonDecode(response.body);
     List<PatientModel> patients = [];
 
@@ -37,8 +42,11 @@ class _PatientScreenState extends State<PatientScreen>
       // print(patient.patientId);
       patients.add(patient);
     }
-
     return patients;
+  }
+
+  getPatientByFirstName() {
+      getPatientData();
   }
 
   @override
@@ -70,7 +78,7 @@ class _PatientScreenState extends State<PatientScreen>
                   )),
               SizedBox(height: 20.0),
               TextField(
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Color.fromRGBO(241, 240, 240, 1),
@@ -84,10 +92,15 @@ class _PatientScreenState extends State<PatientScreen>
                   suffixIcon: IconButton(
                     icon: Icon(Icons.send),
                     onPressed: () {
-                      // handle button press
+                      getPatientByFirstName();
                     },
                   ),
                 ),
+                onChanged: (value) {
+                setState(() {
+                  _searchContent = value;
+                });
+      },
               ),
               SizedBox(
                 height: 20.0,
