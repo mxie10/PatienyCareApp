@@ -145,8 +145,9 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: AssetImage('assets/avatars/user3.png')
-                              as ImageProvider),
+                          image: AssetImage('assets/avatars/clinical.jpg')
+                              as ImageProvider
+                          ),
                       borderRadius: BorderRadius.all(Radius.circular(100.0)),
                       color: Colors.redAccent,
                     ),

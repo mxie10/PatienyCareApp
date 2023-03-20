@@ -15,8 +15,10 @@ class PatientScreen extends StatefulWidget {
 
 class _PatientScreenState extends State<PatientScreen>
     with WidgetsBindingObserver {
+
   bool _refreshData = false;
   String _searchContent = '';
+
   Future getPatientData() async {
     var response = null;
     if(_searchContent == '')
@@ -147,8 +149,10 @@ class _PatientScreenState extends State<PatientScreen>
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                   fit: BoxFit.cover,
-                                  image: AssetImage('assets/avatars/user3.png')
-                                      as ImageProvider),
+                                  image: snapshot.data[index].sex! == 'Male' ? AssetImage('assets/avatars/male.jpg') : AssetImage('assets/avatars/female.jpg')
+                                  // image: AssetImage('assets/avatars/user3.png')
+                                  //     as ImageProvider
+                                  ),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(100.0)),
                               color: Colors.redAccent,
@@ -159,7 +163,8 @@ class _PatientScreenState extends State<PatientScreen>
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => PatientDetailsScreen(
-                                        snapshot.data[index])));
+                                        snapshot.data[index]))
+                                ).then((value) => setState(() {}));
                           },
                         ),
                       );
