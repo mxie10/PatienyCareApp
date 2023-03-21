@@ -22,6 +22,7 @@ class _PatientDetailsScreen extends State<PatientDetailsScreen> {
   String? phoneNumber = "";
   String? email = "";
   String? symotom = "";
+  List<String> _dropdownSexItems = ['', 'Male', 'Female'];
 
   void initState() {
     super.initState();
@@ -151,23 +152,31 @@ class _PatientDetailsScreen extends State<PatientDetailsScreen> {
                     });
                   },
                 ),
-                TextFormField(
-                  initialValue: _patientModel.sex,
-                  enabled: true,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Sex:',
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Color.fromRGBO(232, 228, 228, 1)),
+                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  Transform.scale(
+                    scale:
+                        1.0, // Increase the scale factor to make the text bigger
+                    child: Text(
+                      'Sex:',
+                      style: TextStyle(
+                          color: Color.fromRGBO(96, 96, 96, 1)),
                     ),
                   ),
-                  onChanged: (value) {
-                    setState(() {
-                      sex = value;
-                    });
-                  },
-                ),
+                  DropdownButton(
+                    value: sex,
+                    items: _dropdownSexItems.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        sex = newValue!;
+                      });
+                    },
+                  ),
+                ]),
                 TextFormField(
                   initialValue: _patientModel.address,
                   enabled: true,

@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
                       child: Text(
                         "Patient List",
                         style: TextStyle(
-                          fontSize: 18, // Change the font size to 20
+                          fontSize: 19, // Change the font size to 20
                         ),
                       ),
                   ))
