@@ -21,12 +21,8 @@ class MyApp extends StatelessWidget {
               bottom: const TabBar(
                 labelColor: Colors.white,
                 tabs: [
-                  // SizedBox(child: Tab(icon: Icon(Icons.home), text: "Home")),
                   SizedBox(
                       child: Tab(icon: Icon(Icons.people), text: "Patients")),
-                  // SizedBox(
-                  //     child: Tab(
-                  //         icon: Icon(Icons.manage_accounts), text: "Account"))
                 ],
               ),
             ),

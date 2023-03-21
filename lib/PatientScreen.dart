@@ -62,28 +62,29 @@ class _PatientScreenState extends State<PatientScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromRGBO(247, 246, 242, 1),
       body: Container(
           padding: EdgeInsets.all(16),
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 20.0,
-              ),
-              Text("Patient List",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold,
-                  )),
+              // SizedBox(
+              //   height: 20.0,
+              // ),
+              // Text("Patient List",
+              //     style: TextStyle(
+              //       color: Colors.black,
+              //       fontSize: 30.0,
+              //       fontWeight: FontWeight.bold,
+              //     )),
               SizedBox(height: 20.0),
               TextField(
                 style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: Color.fromRGBO(241, 240, 240, 1),
+                  // fillColor: Color.fromRGBO(241, 240, 240, 1),
+                  fillColor: Colors.white,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
                     borderSide: BorderSide.none,
@@ -105,7 +106,7 @@ class _PatientScreenState extends State<PatientScreen>
       },
               ),
               SizedBox(
-                height: 20.0,
+                height: 5.0,
               ),
               Expanded(
                 child: Card(
