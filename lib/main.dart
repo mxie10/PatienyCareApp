@@ -22,7 +22,15 @@ class MyApp extends StatelessWidget {
                 labelColor: Colors.white,
                 tabs: [
                   SizedBox(
-                      child: Tab(icon: Icon(Icons.people), text: "Patients")),
+                    child: Tab(
+                      icon: Icon(Icons.people),
+                      child: Text(
+                        "Patient List",
+                        style: TextStyle(
+                          fontSize: 18, // Change the font size to 20
+                        ),
+                      ),
+                  ))
                 ],
               ),
             ),
