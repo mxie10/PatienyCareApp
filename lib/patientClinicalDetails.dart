@@ -33,7 +33,6 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
   List<String> _dropdownItems = [
     '',
     'Good',
-    'Serious',
     'Critical',
   ];
 
@@ -80,6 +79,20 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
     heartBeatRate = heartBeatRateController.text;
     note = noteController.text;
 
+    int intBloodPressure = int.parse(bloodPressure!);
+    int intrepositoryRate = int.parse(repositoryRate!);
+    int intbloodOxygenLevel = int.parse(bloodOxygenLevel!);
+    int intheartBeatRate = int.parse(heartBeatRate!);
+
+    var criticalStatus = "Good";
+
+    if (intBloodPressure > 120 ||
+        intrepositoryRate < 12 ||
+        intheartBeatRate > 200 ||
+        intbloodOxygenLevel <= 88) {
+      criticalStatus = "Critical";
+    }
+
     final url = Uri.parse('http://localhost:5000/clinicalInfo');
     final response = await http.post(url, body: {
       "patientId": _patientModel.patientId.toString(),
@@ -87,7 +100,8 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
       'repositoryRate': repositoryRate,
       'bloodOxygenLevel': bloodOxygenLevel,
       'heartBeatRate': heartBeatRate,
-      'isInCriticalCondition': _selectedValue,
+      // 'isInCriticalCondition': _selectedValue,
+      'isInCriticalCondition': criticalStatus,
       "date": DateTime.now().month.toString() +
           '/' +
           DateTime.now().day.toString() +
@@ -146,8 +160,7 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
                       image: DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage('assets/avatars/clinical.jpg')
-                              as ImageProvider
-                          ),
+                              as ImageProvider),
                       borderRadius: BorderRadius.all(Radius.circular(100.0)),
                       color: Colors.redAccent,
                     ),
@@ -251,8 +264,8 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
                                       ? Colors.blue
                                       : (criticalCondition == 'Good'
                                           ? Colors.green
-                                          : (criticalCondition == 'Serious'
-                                              ? Colors.orange
+                                          : (criticalCondition == 'Critical'
+                                              ? Colors.red
                                               : Colors.red))),
                             ),
                           ],
@@ -264,26 +277,30 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
                                 scale:
                                     1.0, // Increase the scale factor to make the text bigger
                                 child: Text(
-                                  'Change critical condition:',
+                                  'Status: ${criticalCondition}',
                                   style: TextStyle(
-                                      color: Colors.blue,
-                                      fontWeight: FontWeight.bold),
+                                    color: criticalCondition == "Critical"
+                                        ? Colors.red
+                                        : Colors
+                                            .green, // Change color based on status value
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                              DropdownButton(
-                                value: _selectedValue,
-                                items: _dropdownItems.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    _selectedValue = newValue!;
-                                  });
-                                },
-                              ),
+                              // DropdownButton(
+                              //   value: _selectedValue,
+                              //   items: _dropdownItems.map((String value) {
+                              //     return DropdownMenuItem<String>(
+                              //       value: value,
+                              //       child: Text(value),
+                              //     );
+                              //   }).toList(),
+                              //   onChanged: (String? newValue) {
+                              //     setState(() {
+                              //       _selectedValue = newValue!;
+                              //     });
+                              //   },
+                              // ),
                             ]),
                         TextField(
                           controller: noteController,
@@ -310,9 +327,11 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
                             child: Text('Update Clinical Information')),
                         ElevatedButton(
                             onPressed: () {
-                               Navigator.push(
+                              Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => HistoryReviewScreen(clinicalRecord)),
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        HistoryReviewScreen(clinicalRecord)),
                               );
                             },
                             style: ButtonStyle(
