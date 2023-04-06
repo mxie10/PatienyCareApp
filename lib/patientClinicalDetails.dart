@@ -196,7 +196,7 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
                             decoration: const InputDecoration(
                               border: UnderlineInputBorder(),
                               hintText: '120/80 mm Hg',
-                              labelText: 'BloodPressure:',
+                              labelText: 'BloodPressure(mm Hg):',
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Color.fromRGBO(232, 228, 228, 1)),
@@ -209,7 +209,7 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
                             decoration: const InputDecoration(
                               hintText: '18/mins',
                               border: UnderlineInputBorder(),
-                              labelText: 'RespiratoryRate:',
+                              labelText: 'RespiratoryRate(/mins):',
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Color.fromRGBO(232, 228, 228, 1)),
@@ -221,7 +221,7 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
                             enabled: true,
                             decoration: const InputDecoration(
                               border: UnderlineInputBorder(),
-                              labelText: 'BloodOxygenLevel:',
+                              labelText: 'BloodOxygenLevel(millimeters/mm Hg):',
                               hintText: '80 millimeters/mm Hg',
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -234,7 +234,7 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
                             enabled: true,
                             decoration: const InputDecoration(
                               border: UnderlineInputBorder(),
-                              labelText: 'HeartbeatRate:',
+                              labelText: 'HeartbeatRate(/mins):',
                               hintText: '80/mins',
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
