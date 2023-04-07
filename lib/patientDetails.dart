@@ -158,8 +158,7 @@ class _PatientDetailsScreen extends State<PatientDetailsScreen> {
                         1.0, // Increase the scale factor to make the text bigger
                     child: Text(
                       'Sex:',
-                      style: TextStyle(
-                          color: Color.fromRGBO(96, 96, 96, 1)),
+                      style: TextStyle(color: Color.fromRGBO(96, 96, 96, 1)),
                     ),
                   ),
                   DropdownButton(
@@ -261,7 +260,13 @@ class _PatientDetailsScreen extends State<PatientDetailsScreen> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => PatientClinicalDetailsScreen(
-                              patientModel: _patientModel)),
+                              patienID: _patientModel.patientId,
+                              firstName: _patientModel.firstName!,
+                              lastName: _patientModel.lastName,
+                              dateOfBirth: _patientModel.dateOfBirth,
+                              symptom: _patientModel.symptom,
+                              sex: _patientModel.sex,
+                              emailAddress: _patientModel.emailAddress)),
                     );
                   },
                   style: ButtonStyle(
