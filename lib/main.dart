@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
                       child: Text(
                         "Patient List",
                         style: TextStyle(
-                          fontSize: 19, // Change the font size to 20
+                          fontSize: 15, // Change the font size to 20
                         ),
                       ),
                     ),
@@ -37,8 +37,7 @@ class MyApp extends StatelessWidget {
                       child: Text(
                         "Critical Patients",
                         style: TextStyle(
-                          fontSize: 19, // Change the font size to 20
-                        ),
+                            fontSize: 15, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ), // A

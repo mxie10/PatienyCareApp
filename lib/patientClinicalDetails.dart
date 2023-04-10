@@ -82,13 +82,10 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
       // print(patient.patientId);
       clinicalRecord.add(record);
     }
-    // print("clinicalRecord.length is:" + clinicalRecord.length.toString());
     if (clinicalRecord.length != 0) {
       criticalCondition =
           clinicalRecord[clinicalRecord.length - 1].isInCriticalCondition;
-      // print("excute??????");
     }
-    // print("The length is:" + clinicalRecord.length.toString());
     return clinicalRecord;
   }
 
@@ -108,7 +105,34 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
     repositoryRate = repositoryRateController.text;
     bloodOxygenLevel = bloodOxygenLevelController.text;
     heartBeatRate = heartBeatRateController.text;
-    note = noteController.text;
+    if (noteController.text == '') {
+      note = "No clinical update for this patient";
+    } else {
+      note = noteController.text;
+    }
+    if ((bloodPressure != '' && double.tryParse(bloodPressure!) == null) ||
+        repositoryRate != '' && double.tryParse(repositoryRate!) == null ||
+        bloodOxygenLevel != '' && double.tryParse(bloodOxygenLevel!) == null ||
+        heartBeatRate != '' && double.tryParse(heartBeatRate!) == null) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text("Please input a number."),
+            actions: <Widget>[
+              TextButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
 
     int intBloodPressure = int.parse(bloodPressure!);
     int intrepositoryRate = int.parse(repositoryRate!);
@@ -323,20 +347,6 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
                                   ),
                                 ),
                               ),
-                              // DropdownButton(
-                              //   value: _selectedValue,
-                              //   items: _dropdownItems.map((String value) {
-                              //     return DropdownMenuItem<String>(
-                              //       value: value,
-                              //       child: Text(value),
-                              //     );
-                              //   }).toList(),
-                              //   onChanged: (String? newValue) {
-                              //     setState(() {
-                              //       _selectedValue = newValue!;
-                              //     });
-                              //   },
-                              // ),
                             ]),
                         TextField(
                           controller: noteController,

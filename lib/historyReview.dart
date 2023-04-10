@@ -10,27 +10,35 @@ class CustomListTile extends ListTile {
   CustomListTile(this.clinicalRecord, this.index)
       : super(
           title: Text(clinicalRecord[index].date.toString(),
-                  style: TextStyle(
-                    color: Colors.teal,
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.bold,
-                  )),
+              style: TextStyle(
+                color: Colors.teal,
+                fontSize: 15.0,
+                fontWeight: FontWeight.bold,
+              )),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 2.0),
-              Text( "BP:" + clinicalRecord[index].bloodPressure.toString() 
-                + " | " + "RR:"+clinicalRecord[index].repositoryRate.toString()),
+              Text("BP:" +
+                  clinicalRecord[index].bloodPressure.toString() +
+                  ' mm Hg' +
+                  " | " +
+                  "RR:" +
+                  clinicalRecord[index].repositoryRate.toString() +
+                  '/min'),
               SizedBox(height: 2.0),
-              Text( "BOL:" + clinicalRecord[index].bloodOxygenLevel.toString()
-                + " | " + "HBR:"+clinicalRecord[index].heartBeatRate.toString()),
+              Text("BOL:" +
+                  clinicalRecord[index].bloodOxygenLevel.toString() +
+                  ' mm Hg' +
+                  " | " +
+                  "HBR:" +
+                  clinicalRecord[index].heartBeatRate.toString() +
+                  '/min'),
               SizedBox(height: 2.0),
-              Text(
-                "Note:" + clinicalRecord[index].description.toString(),
-                style: TextStyle(
+              Text("Note:" + clinicalRecord[index].description.toString(),
+                  style: TextStyle(
                     color: Colors.pink,
-                  )
-                ),
+                  )),
             ],
           ),
           leading: Container(
@@ -55,7 +63,7 @@ class HistoryReviewScreen extends StatelessWidget {
   List<PatientClinicalModel> clinicalRecord;
   HistoryReviewScreen(this.clinicalRecord);
 
-  List<String> textLines = ["bloodPressure:","test","test","test"];
+  List<String> textLines = ["bloodPressure:", "test", "test", "test"];
 
   @override
   Widget build(BuildContext context) {
@@ -66,9 +74,7 @@ class HistoryReviewScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               final clinical = clinicalRecord[index];
               return Card(
-                child: CustomListTile(
-                  clinicalRecord,index
-                ),
+                child: CustomListTile(clinicalRecord, index),
               );
             }));
     throw UnimplementedError();

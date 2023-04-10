@@ -104,7 +104,7 @@ class _CriticalPatientScreenState extends State<CriticalPatientScreen>
                             ),
                           ),
                           subtitle: Text(
-                            snapshot.data[index].dateOfBirth!,
+                            snapshot.data[index].emailAddress!,
                             style: TextStyle(
                               color: Colors.black,
                             ),
