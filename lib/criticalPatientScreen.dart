@@ -89,7 +89,7 @@ class _CriticalPatientScreenState extends State<CriticalPatientScreen>
                     if (snapshot.data == null) {
                       return Container(
                           child: Center(child: Text("Loading....")));
-                    } else
+                    } else {
                       return ListView.builder(
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) => ListTile(
@@ -134,9 +134,17 @@ class _CriticalPatientScreenState extends State<CriticalPatientScreen>
                               color: Colors.redAccent,
                             ),
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PatientDetailsScreen(
+                                        snapshot.data[index].patientId))).then(
+                                (value) => setState(() {}));
+                          },
                         ),
                       );
+                    }
                   },
                 )),
               ),
