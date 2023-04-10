@@ -7,15 +7,34 @@ import 'package:http/http.dart' as http;
 enum PatientStatus { stable, critical }
 
 class PatientClinicalDetailsScreen extends StatefulWidget {
-  final PatientModel patientModel;
-  PatientClinicalDetailsScreen({required this.patientModel});
+  final String? patienID;
+  final String? firstName;
+  final String? lastName;
+  final String? dateOfBirth;
+  final String? symptom;
+  final String? sex;
+  final String? emailAddress;
+  PatientClinicalDetailsScreen(
+      {required this.patienID,
+      required this.firstName,
+      required this.lastName,
+      required this.dateOfBirth,
+      required this.symptom,
+      required this.sex,
+      required this.emailAddress});
 
   @override
   _PatientClinicalDetailsState createState() => _PatientClinicalDetailsState();
 }
 
 class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
-  late PatientModel _patientModel; // Declare _patientModel variable
+  late String? _patientID; // Declare _patientModel variable
+  late String? _firstName;
+  late String? _lastName;
+  late String? _dateOfBirth;
+  late String? _symptom;
+  late String? _sex;
+  late String? _emailAddress;
   TextEditingController bloodPressureController = TextEditingController();
   TextEditingController repositoryRateController = TextEditingController();
   TextEditingController bloodOxygenLevelController = TextEditingController();
@@ -40,13 +59,19 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
 
   Future fetchClinicalDetail() async {
     clinicalRecord.clear();
-    var response = await http.get(Uri.parse(
-        'http://localhost:5000/clinicalInfo?id=${_patientModel.patientId}'));
+    var response = await http
+        .get(Uri.parse('http://localhost:5000/clinicalInfo?id=${_patientID}'));
     var jsonData = jsonDecode(response.body);
 
     for (var r in jsonData) {
       PatientClinicalModel record = PatientClinicalModel(
           r["patientId"],
+          r["firstName"],
+          r["lastName"],
+          r["dateOfBirth"],
+          r["sex"],
+          r["emailAddress"],
+          r["symptom"],
           r["bloodPressure"],
           r["repositoryRate"],
           r["bloodOxygenLevel"],
@@ -57,19 +82,22 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
       // print(patient.patientId);
       clinicalRecord.add(record);
     }
-    // print("clinicalRecord.length is:" + clinicalRecord.length.toString());
     if (clinicalRecord.length != 0) {
       criticalCondition =
           clinicalRecord[clinicalRecord.length - 1].isInCriticalCondition;
-      // print("excute??????");
     }
-    // print("The length is:" + clinicalRecord.length.toString());
     return clinicalRecord;
   }
 
   void initState() {
     super.initState();
-    _patientModel = widget.patientModel; // Initialize _patientModel variable
+    _patientID = widget.patienID;
+    _firstName = widget.firstName;
+    _lastName = widget.lastName;
+    _dateOfBirth = widget.dateOfBirth;
+    _symptom = widget.symptom;
+    _sex = widget.sex;
+    _emailAddress = widget.emailAddress;
   }
 
   submit() async {
@@ -77,7 +105,34 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
     repositoryRate = repositoryRateController.text;
     bloodOxygenLevel = bloodOxygenLevelController.text;
     heartBeatRate = heartBeatRateController.text;
-    note = noteController.text;
+    if (noteController.text == '') {
+      note = "No clinical update for this patient";
+    } else {
+      note = noteController.text;
+    }
+    if ((bloodPressure != '' && double.tryParse(bloodPressure!) == null) ||
+        repositoryRate != '' && double.tryParse(repositoryRate!) == null ||
+        bloodOxygenLevel != '' && double.tryParse(bloodOxygenLevel!) == null ||
+        heartBeatRate != '' && double.tryParse(heartBeatRate!) == null) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text("Please input a number."),
+            actions: <Widget>[
+              TextButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
 
     int intBloodPressure = int.parse(bloodPressure!);
     int intrepositoryRate = int.parse(repositoryRate!);
@@ -95,12 +150,17 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
 
     final url = Uri.parse('http://localhost:5000/clinicalInfo');
     final response = await http.post(url, body: {
-      "patientId": _patientModel.patientId.toString(),
+      "patientId": _patientID.toString(),
+      "firstName": _firstName,
+      "lastName": _lastName,
+      "dateOfBirth": _dateOfBirth,
+      "sex": _sex,
+      "emailAddress": _emailAddress,
+      "symptom": _symptom,
       'bloodPressure': bloodPressure,
       'repositoryRate': repositoryRate,
       'bloodOxygenLevel': bloodOxygenLevel,
       'heartBeatRate': heartBeatRate,
-      // 'isInCriticalCondition': _selectedValue,
       'isInCriticalCondition': criticalStatus,
       "date": DateTime.now().month.toString() +
           '/' +
@@ -287,20 +347,6 @@ class _PatientClinicalDetailsState extends State<PatientClinicalDetailsScreen> {
                                   ),
                                 ),
                               ),
-                              // DropdownButton(
-                              //   value: _selectedValue,
-                              //   items: _dropdownItems.map((String value) {
-                              //     return DropdownMenuItem<String>(
-                              //       value: value,
-                              //       child: Text(value),
-                              //     );
-                              //   }).toList(),
-                              //   onChanged: (String? newValue) {
-                              //     setState(() {
-                              //       _selectedValue = newValue!;
-                              //     });
-                              //   },
-                              // ),
                             ]),
                         TextField(
                           controller: noteController,

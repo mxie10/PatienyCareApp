@@ -6,45 +6,53 @@ import 'package:patient_care_app/patientDetails.dart';
 import './patient_model.dart';
 import './addPatientScreen.dart';
 
-class PatientScreen extends StatefulWidget {
-  const PatientScreen({Key? key}) : super();
+class CriticalPatientScreen extends StatefulWidget {
+  const CriticalPatientScreen({Key? key}) : super();
 
   @override
-  _PatientScreenState createState() => _PatientScreenState();
+  _CriticalPatientScreenState createState() => _CriticalPatientScreenState();
 }
 
-class _PatientScreenState extends State<PatientScreen>
+class _CriticalPatientScreenState extends State<CriticalPatientScreen>
     with WidgetsBindingObserver {
   bool _refreshData = false;
   String _searchContent = '';
 
   Future getPatientData() async {
     var response = null;
-    if (_searchContent == '')
-      response = await http.get(Uri.parse('http://localhost:5000'));
-    else
-      response = await http.get(Uri.parse(
-          'http://localhost:5000/getPatientByName?firstName=${_searchContent}'));
-
-    var jsonData = jsonDecode(response.body);
-    List<PatientModel> patients = [];
-
-    for (var p in jsonData) {
-      PatientModel patient = PatientModel(
-          p["_id"],
-          p["patientUserName"],
-          p["firstName"],
-          p["lastName"],
-          p["sex"],
-          p["address"],
-          p["dateOfBirth"],
-          p["phoneNumber"],
-          p["emailAddress"],
-          p["symptom"]);
-      // print(patient.patientId);
-      patients.add(patient);
+    var critical = "Critical";
+    response = await http.get(Uri.parse(
+        'http://localhost:5000/getCriticalPatient?condition=$critical'));
+    if (response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body);
+      List<PatientClinicalModel> patients = [];
+      List<String> list = [];
+      for (var r in jsonData) {
+        PatientClinicalModel patient = PatientClinicalModel(
+            r["patientId"],
+            r["firstName"],
+            r["lastName"],
+            r["dateOfBirth"],
+            r["sex"],
+            r["emailAddress"],
+            r["symptom"],
+            r["bloodPressure"],
+            r["repositoryRate"],
+            r["bloodOxygenLevel"],
+            r["heartBeatRate"],
+            r["isInCriticalCondition"],
+            r["comment"],
+            r["date"]);
+        // print(patient.patientId);
+        if (!list.contains(r["patientId"])) {
+          patients.add(patient);
+          list.add(r["patientId"]);
+        }
+      }
+      return patients;
+    } else {
+      print('Failed to fetch data: ${response.statusCode}');
     }
-    return patients;
   }
 
   getPatientByFirstName() {
@@ -70,32 +78,6 @@ class _PatientScreenState extends State<PatientScreen>
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 20.0),
-              TextField(
-                style: TextStyle(color: Colors.black),
-                decoration: InputDecoration(
-                  filled: true,
-                  // fillColor: Color.fromRGBO(241, 240, 240, 1),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide.none,
-                  ),
-                  hintText: "Jim Ryan",
-                  prefixIcon: Icon(Icons.search),
-                  prefixIconColor: Colors.grey,
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.send),
-                    onPressed: () {
-                      getPatientByFirstName();
-                    },
-                  ),
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    _searchContent = value;
-                  });
-                },
-              ),
               SizedBox(
                 height: 5.0,
               ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import './homeScreen.dart';
 import './patientScreen.dart';
-import './accountScreen.dart';
+import './criticalPatientScreen.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,7 +10,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       color: Colors.white,
       home: DefaultTabController(
-        length: 1,
+        length: 2,
         child: Scaffold(
           backgroundColor: Colors.black,
           appBar: PreferredSize(
@@ -27,19 +26,29 @@ class MyApp extends StatelessWidget {
                       child: Text(
                         "Patient List",
                         style: TextStyle(
-                          fontSize: 19, // Change the font size to 20
+                          fontSize: 15, // Change the font size to 20
                         ),
                       ),
-                  ))
+                    ),
+                  ),
+                  SizedBox(
+                    child: Tab(
+                      icon: Icon(Icons.warning),
+                      child: Text(
+                        "Critical Patients",
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ), // A
                 ],
               ),
             ),
           ),
           body: TabBarView(
             children: [
-              // HomeScreen(),
               PatientScreen(),
-              // AccountScreen(),
+              CriticalPatientScreen(),
             ],
           ),
         ),
