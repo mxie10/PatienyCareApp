@@ -18,7 +18,13 @@ class _PatientScreenState extends State<PatientScreen>
   bool _refreshData = false;
   String _searchContent = '';
 
+  List<PatientModel>? cachedPatientData;
+
   Future getPatientData() async {
+    if (cachedPatientData != null) {
+      return cachedPatientData!;
+    }
+
     var response = null;
     if (_searchContent == '')
       response = await http.get(Uri.parse('http://localhost:5000'));
@@ -44,10 +50,13 @@ class _PatientScreenState extends State<PatientScreen>
       // print(patient.patientId);
       patients.add(patient);
     }
+
+    cachedPatientData = patients;
     return patients;
   }
 
   getPatientByFirstName() {
+    cachedPatientData = null;
     getPatientData();
   }
 
@@ -92,6 +101,7 @@ class _PatientScreenState extends State<PatientScreen>
                 ),
                 onChanged: (value) {
                   setState(() {
+                    cachedPatientData = null;
                     _searchContent = value;
                   });
                 },
@@ -176,6 +186,7 @@ class _PatientScreenState extends State<PatientScreen>
                   );
                   if (result == true) {
                     setState(() {
+                      cachedPatientData = null;
                       _refreshData = true;
                     });
                   }

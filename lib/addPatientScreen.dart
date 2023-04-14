@@ -34,7 +34,7 @@ class _AddPatientState extends State<AddPatient> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Success"),
+            title: Text("Error"),
             content: Text("Please fill out all of the fields"),
             actions: <Widget>[
               TextButton(
@@ -60,7 +60,7 @@ class _AddPatientState extends State<AddPatient> {
         'lastName': _lastName,
         'sex': _selectedSex,
         'address': _address,
-        'dateOfBirth': _selectedDate.toString().substring(0,10),
+        'dateOfBirth': _selectedDate.toString().substring(0, 10),
         'phoneNumber': _phoneNumber,
         'emailAddress': _email,
         'symptom': _symptom
@@ -101,7 +101,7 @@ class _AddPatientState extends State<AddPatient> {
                         },
                       ),
                       SizedBox(height: 16.0),
-                       CustomTextField(
+                      CustomTextField(
                         labelText: 'last Name',
                         onChanged: (value) {
                           setState(() {
@@ -126,7 +126,8 @@ class _AddPatientState extends State<AddPatient> {
                         },
                         child: Text('Date of Birth'),
                       ),
-                      Text('Selected date: ${_selectedDate.toString().substring(0,10)}'),
+                      Text(
+                          'Selected date: ${_selectedDate.toString().substring(0, 10)}'),
                       SizedBox(height: 16.0),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.start,
